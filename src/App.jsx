@@ -1,61 +1,123 @@
-import React, { useState } from "react";
-import { Container, Card, Form, Button } from "react-bootstrap";
+import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 
-function App() {
-  const [name1, setName1] = useState("");
-  const [email1, setEmail1] = useState("");
-  const [msg1, setMsg1] = useState("");
-  const [opt1, setOpt1] = useState("");
 
-  const send1 = (e) => {
+const App = () => {
+
+  const[form, setFrom] = useState({});
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-  };
 
-  const send2 = (e) => {
-    e.preventDefault();
-  };
+    const target = e.target;
 
+    const data ={
+      name: target.username.value,
+      passwd: target.password.value,
+      message: e.target.message.value,
+      option: target.option.value,
+    }
+
+    if (!target.username.value.trim() || !target.password.value.trim())
+      return toast.error("invalid cridentials");
+
+    setFrom(data);
+
+    toast.success("Uncontrolled form success");
+
+    target.reset();
+
+  }
   return (
-    <div style={{ background: "black", color: "white", minHeight: "100vh", padding: "30px" }}>
-      <Container>
-        <h1 style={{ textAlign: "center", color: "white" }}>Formlar</h1>
+<div
+  style={{
+    backgroundColor: "black",
+    color: "white",
+    minHeight: "100vh",
+    paddingTop: "30px"
+  }}
+>
 
-        <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", justifyContent: "center" }}>
+      <form onSubmit={handleSubmit}
+        style={{
+          width: "400px",
+          height: "400px",
+          padding: "10px",
+          border: "1px solid white",
+          margin: "100px auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: 'center',
+          flexDirection: "column"
+        }}
+      >
+          <h1>FROM</h1>
 
-          <Card style={{ width: "380px", background: "#222", padding: "20px" }}>
-            <h3 style={{ color: "white" }}>Controlled</h3>
-            <Form onSubmit={send1}>
-              <input type="text" value={name1} onChange={(e) => setName1(e.target.value)} placeholder="Ism" style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none" }} />
-              <input type="email" value={email1} onChange={(e) => setEmail1(e.target.value)} placeholder="Email" style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none" }} />
-              <textarea value={msg1} onChange={(e) => setMsg1(e.target.value)} placeholder="Xabar" style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none", height: 100 }} />
-              <select value={opt1} onChange={(e) => setOpt1(e.target.value)} style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none" }}>
-                <option value="">Tanlang</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
-              <Button type="submit" style={{ width: "100%", marginTop: 15 }}>Yuborish</Button>
-            </Form>
-          </Card>
+          <input 
+          required
+          className="name"
+          style={{
+            width: "100%",
+            marginBottom: "20px",
+          }}
+          type="text"
+          name="username"
+          placeholder="Write your username"
+          />
 
-          <Card style={{ width: "380px", background: "#222", padding: "20px" }}>
-            <h3 style={{ color: "white" }}>Uncontrolled</h3>
-            <Form onSubmit={send2}>
-              <input name="name" type="text" placeholder="Ism" style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none" }} />
-              <input name="email" type="email" placeholder="Email" style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none" }} />
-              <textarea name="message" placeholder="Xabar" style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none", height: 100 }} />
-              <select name="option" style={{ width: "100%", padding: 10, margin: "10px 0", background: "#444", color: "white", border: "none" }}>
-                <option value="">Tanlang</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
-              <Button type="submit" style={{ width: "100%", marginTop: 15 }}>Yuborish</Button>
-            </Form>
-          </Card>
+          <input required
+          style={{
+            width: "100%",
+            marginBottom: "20px",
+          }}
+          type="password" 
+          name='password'
+          placeholder='Write password'/>
 
-        </div>
-      </Container>
-    </div>
-  );
+           <input 
+          style={{
+            width: "100%",
+            marginBottom: "20px",
+          }}
+          type="text" 
+          name='message'
+          placeholder='Write your offer'/>
+
+          <select required
+          style={{
+            width: "100%",
+          }}
+          name='option'
+          id=''
+          >
+
+            <option value="1">One</option>
+            <option value="2">TOW</option>
+            <option value="3">THREE</option>
+            <option value="4">FOUR</option>
+            <option value="5">FIVE</option>
+            <option value="6">SIX</option>
+          </select>
+
+          <div className='mt-5'>
+            <button
+            style={{
+              marginRight: "200px",
+            }}
+            className='btn btn-success'>
+              Submit
+            </button>
+
+            <button className='btn btn-seccess'>Censel</button>
+          </div>
+
+      </form>
+
+      <div className='result'>{JSON.stringify(form)}</div>
+
+</div>
+
+  )
 }
 
-export default App;
+export default App
